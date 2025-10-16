@@ -1,0 +1,19 @@
+{
+  "name": "encdec-tcp-flows",
+  "version": "1.0",
+  "dependencies": [
+    "pcapplusplus",
+    "arrow"
+  ],
+  "overrides": [
+    {
+      "name": "pcapplusplus",
+      "version": "24.9"
+    },
+    {
+      "name": "arrow",
+      "version": "19.0.1"
+    }
+  ],
+  "builtin-baseline": "a7d06b3a72d5ec48353bacb84152bd027ee9999b"
+}

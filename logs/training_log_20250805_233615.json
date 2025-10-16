@@ -1,0 +1,38 @@
+{
+  "config": {
+    "data_path": "arrow_files/ds6",
+    "batch_size": 16,
+    "accum_steps": 4,
+    "d_model": 256,
+    "nhead": 8,
+    "num_layers": 8,
+    "dim_feedforward": 1024,
+    "dropout": 0.1,
+    "epochs": 10,
+    "lr": 0.0001,
+    "max_grad_norm": 1.0,
+    "context_length": 1024,
+    "vocab_size": 65546,
+    "warmup_epochs": 2,
+    "num_workers": 128,
+    "seed": 42,
+    "filter_length": 2048,
+    "min_improve": 0.001,
+    "epoch_treshold": 3,
+    "device": "cuda"
+  },
+  "metrics": {
+    "train_loss": [
+      6.981838846931797
+    ],
+    "val_loss": [
+      4.8720208401387355
+    ],
+    "val_acc": [
+      0.48076820319269037
+    ],
+    "epochs": [
+      1
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+# Pcap Files
+pcap_files/wifi_home.pcap
+pcap_files/202401241400.pcap
+pcap_files/data
+*.csv
+*.pcap
+
+# Arrow Files
+arrow_files/
+
+# Models
+models/
+
+# CPP
+build/
+vcpkg_installed/
+
+# Python
+*/.ipynb_checkpoints/
+__pycache__/
+test.py
+test/
+stats/
+
+# Server 
+error.txt
+fast-transformers/
+product.py
+
+# Docs
+ssh.txt
+server.md
+
+# Vim
+*.swp
+*.vim
+
+# Latex
+*.pdf
+*.aux 
+*.bit
+*.blg 
+*.bbl 
+*.lof 
+*.log 
+*.lot 
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.out
+
+imgs/
+text/
