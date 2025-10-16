@@ -1,4 +1,9 @@
 # TCP header Generation
+## Description
+Linear Transformer model that is able to generate TCP flows that can be interpreted as a PCAP file.
+
+This repository is built out of two parts. The CPP project is used to extract complete TCP flows from a given set of input PCAP files and then encodes them to be used as training data for the model.
+The python part then trains the model and is able to generate TCP flows. The generated tokens can then be used by the CPP project to decode them into valid pcap files containing TCP flows.
 
 ## Usage
 Note, this only works for Linux.
