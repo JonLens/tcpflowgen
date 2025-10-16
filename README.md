@@ -124,23 +124,6 @@ Over the past decades, machine learning (ML) methods have been extensively used 
 Foundational models like large-scale Transformers (e.g., BERT, GPT) have revolutionized the field of natural language processing (NLP) by learning robust, context-rich representations of sequential data (i.e., sentences and paragraphs). These models excel at tasks such as text generation, language translation, and context-based understanding due to their ability to capture both local and global dependencies between tokens.\
 Network traffic, like language, is also sequential in nature, consisting of packets or flows that carry information across multiple contexts, such as protocols, headers, payloads, and other network-specific metadata. In the same way that foundational models tokenize language into discrete units (tokens) for efficient learning and processing, network traffic can be tokenized and encoded into a sequence of meaningful representations. This parallelism opens up the potential for foundational models to not only analyze but also generate network traffic, mirroring their success in tasks like text generation.
 
-## Goal:
-
-*The main goal of this thesis is to investigate how foundational models can be adapted to network traffic generation by focusing on the tokenization and encoding of network traffic data.* Specifically, this research will explore how to represent various aspects of traffic (e.g., packet headers, payload, flow data) as tokens, allowing a foundational model to capture dependencies and context across sequences of traffic data. By developing an effective tokenization strategy, the thesis will assess how well these models can generate realistic traffic data and contribute to analysis tasks like classification or anomaly detection.
-
-## Possible Research Questions:
-
-1) What is the most effective way to tokenize network traffic data (e.g., packet headers, payloads, protocol-specific information) to create meaningful inputs for foundational models?
-2) Can metadata regarding traffic (timings, network load…) be incorporated into the tokenization approach?
-3) How do foundational models perform on traditional network traffic analysis tasks, such as encrypted traffic classification or network intrusion detection, compared to conventional ML methods?
-4) (*Optional*) Can foundational models, once trained on tokenized network traffic, generate realistic and diverse traffic flows that accurately mimic real-world patterns and protocols?
-5) (*Optional*) Can foundational models help create a comprehensive benchmark for evaluating network traffic analysis techniques by generating diverse traffic datasets with varying levels of complexity and real-world applicability?
-
-## Approach:
-
-The project will start with a review of existing work in both network traffic analysis and foundational models used in NLP. Special attention will be paid to methods of tokenization and encoding in language models, as well as traditional techniques used to represent network traffic in ML contexts.
-Then, the core of the project will be devising a tokenization strategy for network traffic based on prior literature. The student will explore how to represent network traffic features (e.g., packet headers, flow duration, payload data) as tokens, ensuring that the sequence contains sufficient information for foundational models.
-
 ## Recommended literature:
 
 - Zhao, Ruijie, et al. “Yet another traffic classifier: A masked autoencoder based traffic transformer with multi-level flow representation.” Proceedings of the AAAI Conference on Artificial Intelligence. Vol. 37. No. 4. 2023.
