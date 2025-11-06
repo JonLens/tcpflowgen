@@ -6,10 +6,7 @@
 #include <arrow/ipc/api.h>
 #include <arrow/io/api.h>
 #include <arrow/builder.h>
-#include <memory>
 #include <vector>
-#include <iostream>
-#include <map>
 #include <cstdint>
 
 struct PacketInfo {

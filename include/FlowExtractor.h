@@ -1,5 +1,5 @@
-#ifndef PACKET_PROCESSOR_H
-#define PACKET_PROCESSOR_H
+#ifndef FLOW_EXTRACTOR_H
+#define FLOW_EXTRACTOR_H
 
 #include <string>
 #include <map>
@@ -10,4 +10,4 @@ void process_pcap_file(const std::string& pcapFileName,
                       uint64_t& packet_count,
                       std::map<std::string, int>& flow_type_counts);
 
-#endif // PACKET_PROCESSOR_H
+#endif // FLOW_EXTRACTOR_H
