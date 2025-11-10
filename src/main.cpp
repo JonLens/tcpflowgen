@@ -7,9 +7,6 @@ namespace fs = std::filesystem;
 #include "Decode.h"
 #include "Packet.h"
 #include "PcapFileDevice.h"
-#include "IPv4Layer.h"
-#include "TcpLayer.h"
-#include "SystemUtils.h"
 
 void print_usage() {
     std::cerr << "Usage:\n"
