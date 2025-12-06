@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <filesystem>
+#include <vector>
 namespace fs = std::filesystem;
 #include "FlowExtractor.h"
 #include "Encode.h"
@@ -8,52 +9,82 @@ namespace fs = std::filesystem;
 #include "Packet.h"
 #include "PcapFileDevice.h"
 
+
 void print_usage() {
     std::cerr << "Usage:\n"
               << "  Encode mode: " << program_invocation_short_name << " encode <input_pcap_or_directory> <output_arrow_directory>\n"
               << "  Decode mode: " << program_invocation_short_name << " decode <input_arrow_directory> <output_pcap_directory>\n";
 }
 
-int encode_mode(const std::string& inputPath, const std::string& outputDir) {
+
+std::vector<fs::path> check_arguments(const std::string& inputPathStr, const std::string& outputDirStr,
+                                      const std::vector<std::string>& fileTypes) {
+    fs::path inputPath(inputPathStr);
+    fs::path outputDir(outputDirStr);
+
+    // Check if outputDir is a directory, not a file
+    if (fs::exists(outputDir) && fs::is_regular_file(outputDir)) {
+        throw std::runtime_error("outputDir is an existing file, not a directory: " + outputDirStr);
+    }
+
+    // If outputDir doesn't exist but looks like a file (has an extension), reject it
+    if (!fs::exists(outputDir) && !outputDir.extension().empty()) {
+        throw std::runtime_error("outputDir looks like a filename, not a directory: " + outputDirStr);
+    }
+
     // Create output directory if it doesn't exist
     if (!fs::exists(outputDir)) {
         if (!fs::create_directories(outputDir)) {
-            std::cerr << "Error: Failed to create output directory " << outputDir << std::endl;
-            return 1;
+    	    throw std::runtime_error("Failed to create output directory " + outputDirStr);
         }
     }
 
-    std::vector<fs::path> pcapFiles;
+    // Lambda to check file extension
+    auto has_allowed_extension = [&fileTypes](const fs::path& p) -> bool {
+        auto extension = p.extension().string();
+        for (const auto& ft: fileTypes) {
+            if (extension == ft) return true;
+        }
+        return false;
+    };
+
+    std::vector<fs::path> files;
 
     // Check if input is directory or single file
     if (fs::is_directory(inputPath)) {
         // Collect all .pcap files in directory
         for (const auto& entry : fs::directory_iterator(inputPath)) {
-            if (entry.path().extension() == ".pcap" || 
-                entry.path().extension() == ".pcapng") {
-                pcapFiles.push_back(entry.path());
+            if (!entry.is_regular_file()) continue;
+
+            if (has_allowed_extension(entry.path())) {
+                files.push_back(entry.path());
             }
         }
-        
-        if (pcapFiles.empty()) {
-            std::cerr << "Error: No .pcap files found in directory " << inputPath << std::endl;
-            return 1;
+        if (files.empty()) {
+    	    throw std::runtime_error("Failed to find input files " + inputPathStr);
         }
     } else {
         // Single file mode
-        if (!fs::exists(inputPath)) {
-            std::cerr << "Error: Input file " << inputPath << " does not exist" << std::endl;
-            return 1;
+        if (!fs::exists(inputPath) || !fs::is_regular_file(inputPath)) {
+    	    throw std::runtime_error("Failed to find input file " + inputPathStr);
         }
-        pcapFiles.push_back(inputPath);
+        if(!has_allowed_extension(inputPath)) {
+    	    throw std::runtime_error("Input file has the wrong extension " + inputPathStr);
+        }
+        files.push_back(inputPath);
     }
+    return files;
+}
 
+int encode_mode(const std::string& inputPath, const std::string& outputDir) {
+    
     auto start_time = std::chrono::high_resolution_clock::now();
     size_t total_flows = 0;
     size_t total_packets = 0;
     size_t processed_files = 0;
 
     try {
+        auto pcapFiles = check_arguments(inputPath, outputDir, {".pcap", ".pcapng"});
         for (const auto& pcapFile : pcapFiles) {
             std::cout << "\nProcessing file: " << pcapFile.string() << std::endl;
             
@@ -169,38 +200,6 @@ int encode_mode(const std::string& inputPath, const std::string& outputDir) {
 
 int decode_mode(const std::string& inputPath, const std::string& outputDir) {
     GlobalStats global_stats;
-    // Create output directory if it doesn't exist
-    if (!fs::exists(outputDir)) {
-        if (!fs::create_directories(outputDir)) {
-            std::cerr << "Error: Failed to create output directory " << outputDir << std::endl;
-            return 1;
-        }
-    }
-
-    std::vector<fs::path> arrowFiles;
-    
-    // Check if input is directory or single file
-    if (fs::is_directory(inputPath)) {
-        // Collect all .pcap files in directory
-        for (const auto& entry : fs::directory_iterator(inputPath)) {
-            if (entry.path().extension() == ".arrow") {
-                arrowFiles.push_back(entry.path());
-            }
-        }
-        
-        if (arrowFiles.empty()) {
-            std::cerr << "Error: No .arrow files found in directory " << inputPath << std::endl;
-            return 1;
-        }
-    } else {
-        // Single file mode
-        if (!fs::exists(inputPath)) {
-            std::cerr << "Error: Input file " << inputPath << " does not exist" << std::endl;
-            return 1;
-        }
-        arrowFiles.push_back(inputPath);
-    }    
-
     auto start_time = std::chrono::high_resolution_clock::now();
     size_t total_flows = 0;
     size_t processed_files = 0;
@@ -209,6 +208,7 @@ int decode_mode(const std::string& inputPath, const std::string& outputDir) {
     std::vector<std::tuple<size_t, FlowValidationStats>> all_flow_validations;
     
     try {
+        auto arrowFiles = check_arguments(inputPath, outputDir, {".arrow"});
         for (const auto& arrowFile : arrowFiles) {
             std::cout << "\nProcessing file: " << arrowFile.string() << std::endl;
             

@@ -8,6 +8,7 @@
 #include <arrow/builder.h>
 #include <vector>
 #include <cstdint>
+#include <iostream>
 
 struct PacketInfo {
     std::string src_ip;

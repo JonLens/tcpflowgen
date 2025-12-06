@@ -3,7 +3,6 @@
 #include "SystemUtils.h"
 #include "PcapFileDevice.h"
 #include "Packet.h"
-#include "EthLayer.h"
 #include "IPv4Layer.h"
 #include "TcpLayer.h"
 #ifdef __linux__
@@ -11,7 +10,6 @@
     #include <arpa/inet.h>   // Linux needs this for htons(), htonl(), etc.
 #endif
 #include <Logger.h>
-#include <chrono>
 
 void process_pcap_file(const std::string& pcapFileName, 
                       std::map<FlowKey, FlowInfo>& categorized_flows,
