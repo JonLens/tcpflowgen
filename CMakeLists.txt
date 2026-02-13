@@ -12,6 +12,7 @@ find_package(Arrow REQUIRED)
 include_directories(include)
 set(SOURCES
     src/FlowUtils.cpp
+    src/ReportUtils.cpp
     src/Encode.cpp
     src/FlowExtractor.cpp
     src/Decode.cpp

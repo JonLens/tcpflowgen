@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 #include "Packet.h"
 #include "FlowUtils.h"
 
@@ -37,10 +38,17 @@ FlowValidationStats validateFlowSemantics(const std::vector<pcpp::Packet>& packe
 
 std::vector<std::vector<int>> load_tokens_arrow(const std::string& filename);
 
-static std::string generateRandomIP();
+std::string generateRandomIP();
 
-pcpp::Packet createTcpPacketFromIntSequence(const std::vector<int>& flow_tokens, const std::string& srcIP, const std::string& dstIP, size_t& index, PacketCreationStats& stats, size_t packet_number);
+pcpp::Packet createTcpPacketFromIntSequence(
+    const std::vector<int>& flow_tokens,
+    const std::string& srcIP,
+    const std::string& dstIP,
+    size_t& index,
+    PacketCreationStats& stats,
+    size_t packet_number);
 
-std::pair<std::vector<pcpp::Packet>, PacketCreationStats> processFlowTokens(const std::vector<int>& flow_tokens);
+std::pair<std::vector<pcpp::Packet>, PacketCreationStats> processFlowTokens(
+    const std::vector<int>& flow_tokens);
 
 #endif // DECODE_H
