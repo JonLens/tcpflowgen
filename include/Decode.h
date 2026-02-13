@@ -37,7 +37,7 @@ FlowValidationStats validateFlowSemantics(const std::vector<pcpp::Packet>& packe
 
 std::vector<std::vector<int>> load_tokens_arrow(const std::string& filename);
 
-std::string generateRandomIP();
+static std::string generateRandomIP();
 
 pcpp::Packet createTcpPacketFromIntSequence(const std::vector<int>& flow_tokens, const std::string& srcIP, const std::string& dstIP, size_t& index, PacketCreationStats& stats, size_t packet_number);
 
